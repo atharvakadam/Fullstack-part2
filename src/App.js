@@ -1,24 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+// import logo from './logo.svg';
+import './CSS/App.css';
+import Note from './Components/Note';
 
-function App() {
+
+function App(props) {
+
+  const [notes, setNotes] = useState(props.notes);
+  const [newNote, setNewNote] = useState('');
+  const [showAll, setShowAll] = useState(true);
+
+
+  const addNote = (event) => {
+    console.log(event);
+    event.preventDefault();
+    console.log('button clicked', event.target);
+    const noteObject = {
+      content: newNote,
+      date: new Date().toISOString(),
+      important: Math.random() < 0.5,
+      id: notes.length + 1,
+    };
+
+    setNotes(notes.concat(noteObject));
+    setNewNote('');
+  }
+
+  const handleNoteChange = (event) => {
+    // console.log(document.getElementById("FDD").value);
+    console.log(event.target.value);
+    setNewNote(event.target.value);
+    console.log(newNote);
+  }
+  
+  // console.log(notes)
+  const notesToShow = showAll ? notes : notes.filter(note => note.important === true)
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Notes</h1>
+      <ul>
+        {notesToShow.map(note => <Note key={note.id} note={note}/>)}
+      </ul>
+      <button onClick={() => setShowAll(!showAll)}>
+        show{showAll ? 'important':'all'}
+      </button>
+      <form onSubmit={addNote}>
+        <input id="FDD" value={newNote} onChange={handleNoteChange}/>
+        <button type="submit">save</button>
+      </form>
     </div>
   );
 }
