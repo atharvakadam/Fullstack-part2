@@ -4,7 +4,22 @@ import './CSS/App.css';
 import axios from 'axios';
 import Note from './Components/Note';
 import noteService from './services/notes'
+import Error from './Components/Error'
 
+const Footer = () => {
+  const footerStyle = {
+    color: 'green',
+    fontStyle: 'italic',
+    fontSize: 16
+  }
+
+  return (
+    <div style={footerStyle}>
+      <br />
+      <em>Note app, Department of Computer Science, University of Helsinki 2020</em>
+    </div> 
+  )
+}
 
 
 function App() {
@@ -12,6 +27,7 @@ function App() {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('some error happened...');
 
   const hook = () => {
     // console.log('effect');
@@ -90,9 +106,12 @@ function App() {
           // setNotes(notes);
 
         }).catch(error => {
-          alert(
-            `the note '${note.content}' was already deleted from server`
+          setErrorMessage(
+            `Note '${note.content}' was already removed from server`
           )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
           setNotes(notes.filter(n => n.id !== id));
         }
         );
@@ -101,6 +120,7 @@ function App() {
   return (
     <div>
       <h1>Notes</h1>
+      <Error message={errorMessage}/>
       <ul>
         {notesToShow.map(note => <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)}/>)}
       </ul>
@@ -111,6 +131,7 @@ function App() {
         <input id="FDD" value={newNote} onChange={handleNoteChange}/>
         <button type="submit">save</button>
       </form>
+      <Footer />
     </div>
   );
 }
