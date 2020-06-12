@@ -65,6 +65,7 @@ function App() {
   console.log(notes);
   
   const addNote = (noteObject) => {
+    noteFromRef.current.toggleVisibility()
     noteService.create(noteObject).then(changedNote => {
       setNotes(notes.concat(changedNote));
     })
@@ -108,7 +109,7 @@ function App() {
         );
     }
 
-    const handleLogin = async (event) => {
+  const handleLogin = async (event) => {
       event.preventDefault()
       console.log('logging in with', username, password)
       try{
@@ -126,39 +127,40 @@ function App() {
         }, 5000)
       }
       
-    }
+  }
 
-    const handleLogout = async (event) => {
+  const handleLogout = async (event) => {
       event.preventDefault()
       console.log(user.username, 'logged out.')
       window.localStorage.removeItem('loggedNoteAppUser');
       noteService.setToken(null)
       setUser(null)
 
-    }
+  }
 
-    const loginForm = () => {
-      
-      return (
-        <div>
-          <Togglable buttonLabel="log in">
-            <LoginForm
-              username={username}
-              password={password}
-              handleUsernameChange={({ target }) => setUsername(target.value)}
-              handlePasswordChange={({ target }) => setPassword(target.value)}
-              handleSubmit={handleLogin}
-            />
-          </Togglable>  
-        </div>
-      )
-    }
-  
-    const noteForm = () => (
-      <Togglable buttonLabel="new note">
-        <NoteForm createNote={addNote}/>
-      </Togglable> 
+  const loginForm = () => { 
+    return (
+      <div>
+        <Togglable buttonLabel="log in">
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+        </Togglable>  
+      </div>
     )
+  }
+  
+  const noteFromRef = React.createRef()
+
+  const noteForm = () => (
+    <Togglable buttonLabel="new note" ref={noteFromRef}>
+      <NoteForm createNote={addNote}/>
+    </Togglable> 
+  )
   
     
   return (
