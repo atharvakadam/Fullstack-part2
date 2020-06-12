@@ -88,8 +88,6 @@ function App() {
             }).catch(error => {
                 console.log('fail')
             })
-            // setNotes(notes);
-            // setNotes(notes);
 
         }).catch(error => {
             setErrorMessage(
