@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import logo from './logo.svg';
 import './CSS/App.css';
 import axios from 'axios';
 import Note from './Components/Note';
@@ -29,7 +28,6 @@ const Footer = () => {
 function App() {
 
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState('');
@@ -66,36 +64,12 @@ function App() {
   console.log('render',notes.length,'notes');
   console.log(notes);
   
-  const addNote = (event) => {
-    // console.log(event);
-    event.preventDefault();
-    console.log('button clicked', event.target);
-    const noteObject = {
-      content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() < 0.5,
-    };
-
-    // axios.post('http://localhost:3001/notes',noteObject).then(response => {
-    //   console.log(response)
-    //   setNotes(notes.concat(response.data));
-    //   setNewNote('');
-    // });
+  const addNote = (noteObject) => {
     noteService.create(noteObject).then(changedNote => {
       setNotes(notes.concat(changedNote));
-      setNewNote('');
-    }).catch(error => {
-      console.log('fail')
     })
   }
 
-
-  const handleNoteChange = (event) => {
-    // console.log(document.getElementById("FDD").value);
-    console.log(event.target.value);
-    setNewNote(event.target.value);
-    console.log(newNote);
-  }
   
   // console.log(notes)
   const notesToShow = showAll ? notes : notes.filter(note => note.important === true)
@@ -182,7 +156,7 @@ function App() {
   
     const noteForm = () => (
       <Togglable buttonLabel="new note">
-        <NoteForm onSubmit={addNote} value={newNote} handleChange={handleNoteChange}/>
+        <NoteForm createNote={addNote}/>
       </Togglable> 
     )
   
