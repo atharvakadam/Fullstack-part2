@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 
 export default function Note({ note, toggleImportance }) {
@@ -7,8 +8,8 @@ export default function Note({ note, toggleImportance }) {
     return (
         <div>
             <li className='note'>
-            {note.content}
-            <button onClick={toggleImportance}>{label}</button>
+                {note.content}
+                <button onClick={toggleImportance}>{label}</button>
             </li>
         </div>
     )

@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React, {useState} from 'react'
 
 const NoteForm = (props) => {
-    const [newNote, setNewNote] = useState('');
+    const [newNote, setNewNote] = useState('')
     
     const handleChange = (event) => {
-        setNewNote(event.target.value);
+        setNewNote(event.target.value)
     }
 
     const addNote = (event) => {
@@ -16,7 +17,7 @@ const NoteForm = (props) => {
             date: Date()
         })
 
-        setNewNote('');
+        setNewNote('')
     }
 
 
