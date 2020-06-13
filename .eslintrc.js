@@ -5,11 +5,16 @@ module.exports = {
         'commonjs': true,
         'es2020': true,
         'jest': true,
+        'cypress/globals':true
     },
     'extends': 'eslint:recommended',
     'parserOptions': {
         'ecmaVersion': 11
     },
+    'plugins': [
+        'react','jest','cypress'
+    ]
+    ,
     'rules': {
         'indent': [
             'error',
