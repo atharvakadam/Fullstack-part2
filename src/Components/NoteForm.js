@@ -22,7 +22,7 @@ const NoteForm = (props) => {
 
 
     return (
-        <div>
+        <div className="formDiv">
             <h2>Create a new Note</h2>
             <form onSubmit={addNote}>
                 <input value={newNote} onChange={handleChange}/>
